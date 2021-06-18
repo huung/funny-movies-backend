@@ -8,10 +8,13 @@ const videoSchema = new Schema({
   url: String,
   email: String,
   createdAt: String,
-  votes: {
-    up: Number,
-    down: Number,
-  },
+  votes: [
+    {
+      email: String,
+      status: String,
+      createdAt: String,
+    },
+  ],
 });
 
 module.exports = model("Video", videoSchema);

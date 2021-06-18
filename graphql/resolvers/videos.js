@@ -1,4 +1,4 @@
-const { AuthenticationError } = require("apollo-server");
+const { AuthenticationError, UserInputError } = require("apollo-server");
 
 const Video = require("../../models/Video");
 const checkAuth = require("../../utils/checkAuth");
@@ -45,6 +45,27 @@ module.exports = {
       } catch (err) {
         throw new Error(err);
       }
+    },
+
+    async voteVideo(parent, args, context) {
+      const { email } = checkAuth(context);
+      const { videoId, status } = args;
+      const video = await Video.findById(videoId);
+
+      if (video) {
+        const foundVote = video.votes.find((vote) => vote.email === email);
+        if (foundVote) {
+          foundVote.status = status;
+        } else {
+          video.votes.push({
+            email,
+            status,
+            createdAt: new Date().toISOString(),
+          });
+        }
+        await video.save();
+        return video;
+      } else throw new UserInputError("Video not found");
     },
   },
 };

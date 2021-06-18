@@ -13,6 +13,14 @@ module.exports = gql`
     url: String!
     createdAt: String!
     email: String!
+    votes: [Vote]!
+  }
+
+  type Vote {
+    id: ID!
+    email: String!
+    status: String!
+    createdAt: String!
   }
 
   input RegisterInput {
@@ -30,5 +38,6 @@ module.exports = gql`
     login(email: String!, password: String!): User!
     shareVideo(url: String!): Video!
     deleteVideo(videoId: String!): String!
+    voteVideo(videoId: String!, status: String!): Video!
   }
 `;
