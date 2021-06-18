@@ -8,11 +8,11 @@ module.exports = gql`
     createdAt: String!
   }
 
-  type Post {
+  type Video {
     id: ID!
     url: String!
     createdAt: String!
-    username: String!
+    email: String!
   }
 
   input RegisterInput {
@@ -22,11 +22,13 @@ module.exports = gql`
   }
 
   type Query {
-    getVideos: [Post]
+    getVideos: [Video]
   }
 
   type Mutation {
     register(registerInput: RegisterInput): User!
     login(email: String!, password: String!): User!
+    shareVideo(url: String!): Video!
+    deleteVideo(videoId: String!): String!
   }
 `;

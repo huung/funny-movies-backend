@@ -6,7 +6,7 @@ const videoSchema = new Schema({
     ref: "users",
   },
   url: String,
-  username: String,
+  email: String,
   createdAt: String,
   votes: {
     up: Number,
