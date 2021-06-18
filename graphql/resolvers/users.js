@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { UserInputError } = require("apollo-server");
+const { UserInputError, AuthenticationError } = require("apollo-server");
 
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
@@ -38,7 +38,7 @@ module.exports = {
 
       const user = await User.findOne({ email });
       if (user) {
-        throw new UserInputError("Email is taken", {
+        throw new AuthenticationError("Email is taken", {
           errors: {
             email: "An user with this email is already existing.",
           },
@@ -75,14 +75,14 @@ module.exports = {
 
       if (!user) {
         errors.general = "User not found";
-        throw new UserInputError("User not found", { errors });
+        throw new AuthenticationError("User not found", { errors });
       }
 
       const matchPassword = await bcrypt.compare(password, user.password);
 
       if (!matchPassword) {
         errors.general = "Incorrect password";
-        throw new UserInputError("Incorrect password", { errors });
+        throw new AuthenticationError("Incorrect password", { errors });
       }
 
       const token = generateToken(user);
