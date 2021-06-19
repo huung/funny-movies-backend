@@ -37,7 +37,7 @@ module.exports = gql`
     register(registerInput: RegisterInput): User!
     login(email: String!, password: String!): User!
     shareVideo(url: String!): Video!
-    deleteVideo(videoId: String!): String!
-    voteVideo(videoId: String!, status: String!): Video!
+    deleteVideo(videoId: ID!): String!
+    voteVideo(videoId: ID!, status: String!): Video!
   }
 `;
