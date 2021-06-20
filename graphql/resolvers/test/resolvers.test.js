@@ -212,7 +212,6 @@ describe("resolvers", () => {
       );
     } catch (error) {
       err = error.toString();
-      console.log("-----", err);
     }
     expect(err).toContain("AuthenticationError");
   });
@@ -226,7 +225,6 @@ describe("resolvers", () => {
       });
     } catch (error) {
       err = error.toString();
-      console.log("-----", err);
     }
     expect(err).toContain("AuthenticationError");
   });
