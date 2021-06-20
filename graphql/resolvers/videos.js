@@ -18,16 +18,20 @@ module.exports = {
   Mutation: {
     async shareVideo(parent, args, context) {
       const user = checkAuth(context);
-      const { url } = args;
-      const newVideo = new Video({
-        url,
-        user: user.id,
-        email: user.email,
-        createdAt: new Date().toISOString(),
-      });
+      if (user) {
+        const { url } = args;
+        const newVideo = new Video({
+          url,
+          user: user.id,
+          email: user.email,
+          createdAt: new Date().toISOString(),
+        });
 
-      const video = await newVideo.save();
-      return video;
+        const video = await newVideo.save();
+        return video;
+      } else {
+        throw new AuthenticationError("Action not allowed");
+      }
     },
 
     async deleteVideo(parent, args, context) {
